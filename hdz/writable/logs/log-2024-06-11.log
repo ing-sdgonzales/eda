@@ -1,0 +1,71 @@
+ERROR - 2024-06-11 11:39:26 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 11:39:26 --> Error sending email to prueba@test.com
+ERROR - 2024-06-11 11:39:26 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 11:39:26 --> Error sending email to prueba@test.com
+ERROR - 2024-06-11 11:40:47 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 11:40:47 --> Error sending email to prueba@test.com
+ERROR - 2024-06-11 13:17:58 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 13:17:58 --> Error sending email to sdgonzales@conred.gob.gt
+ERROR - 2024-06-11 13:21:16 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 13:21:16 --> Error sending email to prueba@test.com
+ERROR - 2024-06-11 13:23:16 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 13:23:16 --> Error sending email to sdgonzales@conred.gob.gt
+ERROR - 2024-06-11 13:49:33 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 13:49:33 --> Error sending email to prueba@test.com
+CRITICAL - 2024-06-11 14:09:47 --> Undefined array key "type"
+#0 C:\xampp\htdocs\helpdeskz\hdz\app\Views\staff\ticket_view.php(107): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 107)
+#1 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(220): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(222): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\helpdeskz\hdz\framework\Common.php(1217): CodeIgniter\View\View->render('staff/ticket_vi...', Array, true)
+#4 C:\xampp\htdocs\helpdeskz\hdz\app\Controllers\Staff\Tickets.php(239): view('staff/ticket_vi...', Array)
+#5 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(936): App\Controllers\Staff\Tickets->view('7')
+#6 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(432): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff\Tickets))
+#7 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(333): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\helpdeskz\index.php(44): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2024-06-11 14:24:48 --> Undefined array key "title"
+#0 C:\xampp\htdocs\helpdeskz\hdz\app\Views\staff\ticket_view.php(102): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 102)
+#1 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(220): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(222): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\helpdeskz\hdz\framework\Common.php(1217): CodeIgniter\View\View->render('staff/ticket_vi...', Array, true)
+#4 C:\xampp\htdocs\helpdeskz\hdz\app\Controllers\Staff\Tickets.php(239): view('staff/ticket_vi...', Array)
+#5 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(936): App\Controllers\Staff\Tickets->view('7')
+#6 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(432): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff\Tickets))
+#7 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(333): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\helpdeskz\index.php(44): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2024-06-11 14:30:05 --> Undefined array key "title"
+#0 C:\xampp\htdocs\helpdeskz\hdz\app\Views\staff\ticket_view.php(102): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 102)
+#1 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(220): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(222): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\helpdeskz\hdz\framework\Common.php(1217): CodeIgniter\View\View->render('staff/ticket_vi...', Array, true)
+#4 C:\xampp\htdocs\helpdeskz\hdz\app\Controllers\Staff\Tickets.php(239): view('staff/ticket_vi...', Array)
+#5 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(936): App\Controllers\Staff\Tickets->view('7')
+#6 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(432): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff\Tickets))
+#7 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(333): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\helpdeskz\index.php(44): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2024-06-11 14:31:31 --> Array to string conversion
+#0 C:\xampp\htdocs\helpdeskz\hdz\app\Views\staff\ticket_view.php(101): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string...', 'C:\\xampp\\htdocs...', 101)
+#1 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(220): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(222): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\helpdeskz\hdz\framework\Common.php(1217): CodeIgniter\View\View->render('staff/ticket_vi...', Array, true)
+#4 C:\xampp\htdocs\helpdeskz\hdz\app\Controllers\Staff\Tickets.php(239): view('staff/ticket_vi...', Array)
+#5 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(936): App\Controllers\Staff\Tickets->view('7')
+#6 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(432): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff\Tickets))
+#7 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(333): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\helpdeskz\index.php(44): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2024-06-11 14:33:00 --> Undefined array key "title"
+#0 C:\xampp\htdocs\helpdeskz\hdz\app\Views\staff\ticket_view.php(103): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 103)
+#1 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(220): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(222): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\helpdeskz\hdz\framework\Common.php(1217): CodeIgniter\View\View->render('staff/ticket_vi...', Array, true)
+#4 C:\xampp\htdocs\helpdeskz\hdz\app\Controllers\Staff\Tickets.php(239): view('staff/ticket_vi...', Array)
+#5 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(936): App\Controllers\Staff\Tickets->view('7')
+#6 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(432): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff\Tickets))
+#7 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(333): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\helpdeskz\index.php(44): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2024-06-11 15:08:28 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
+ERROR - 2024-06-11 15:08:28 --> Error sending email to prueba@test.com

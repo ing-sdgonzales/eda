@@ -1,0 +1,21 @@
+CRITICAL - 2024-06-13 13:40:49 --> Undefined variable $item
+#0 C:\xampp\htdocs\helpdeskz\hdz\app\Views\client\ticket_view.php(52): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 52)
+#1 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(220): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(222): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\helpdeskz\hdz\framework\Common.php(1217): CodeIgniter\View\View->render('client/ticket_v...', Array, true)
+#4 C:\xampp\htdocs\helpdeskz\hdz\app\Controllers\Ticket.php(243): view('client/ticket_v...', Array)
+#5 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(936): App\Controllers\Ticket->clientShow('8')
+#6 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(432): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ticket))
+#7 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(333): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\helpdeskz\index.php(44): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2024-06-13 14:51:18 --> Call to undefined function lantg()
+#0 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(220): include()
+#1 C:\xampp\htdocs\helpdeskz\hdz\framework\View\View.php(222): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#2 C:\xampp\htdocs\helpdeskz\hdz\framework\Common.php(1217): CodeIgniter\View\View->render('staff/tickets', Array, true)
+#3 C:\xampp\htdocs\helpdeskz\hdz\app\Controllers\Staff\Tickets.php(64): view('staff/tickets', Array)
+#4 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(936): App\Controllers\Staff\Tickets->manage('main')
+#5 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(432): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff\Tickets))
+#6 C:\xampp\htdocs\helpdeskz\hdz\framework\CodeIgniter.php(333): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\helpdeskz\index.php(44): CodeIgniter\CodeIgniter->run()
+#8 {main}
