@@ -104,6 +104,7 @@ return [
         'recordsNotFound' => 'No se encontraron registros.',
         'enterExistingPassword' => 'Ingrese su contraseña actual.',
         'enterNewPassword' => 'Ingrese su nueva contraseña.',
+        'enterPriority' => 'Ingrese una prioridad para el ticket',
         'passwordsNotMatches' => 'Las nuevas contraseñas ingresadas no coinciden.',
         'wrongExistingPassword' => 'Su contraseña actual es incorrecta.'
     ],

@@ -27,4 +27,8 @@ class PriorityModel extends Model
     protected $validationRules    = [];
     protected $validationMessages = [];
     protected $skipValidation     = false;
+
+    public function get_priorities() {
+        return $this->findAll();
+    }
 }

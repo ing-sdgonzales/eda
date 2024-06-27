@@ -46,6 +46,24 @@ $this->section('content');
                     </label>
                     <input type="text" value="<?php echo $department->name;?>" class="form-control" readonly>
                 </div>
+
+                <div class="form-group">
+                    <label><?php echo lang('Admin.form.priority');?></label>
+                    <select name="priority" class="form-control custom-select">
+                        <?php
+                        if(isset($ticket_priorities)){
+                            foreach ($ticket_priorities as $item){
+                                if($item->id == set_value('priority')){
+                                    echo '<option value="'.$item->id.'" selected>'.lang('Admin.form.'.$item->name).'</option>';
+                                }else{
+                                    echo '<option value="'.$item->id.'">'.lang('Admin.form.'.$item->name).'</option>';
+                                }
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                
                 <?php
                 if(isset($customFields)){
                     foreach ($customFields as $customField){

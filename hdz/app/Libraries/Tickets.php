@@ -28,7 +28,7 @@ class Tickets
         $this->ticketsModel = new \App\Models\Tickets();
         $this->messagesModel = new TicketsMessage();
     }
-    public function createTicket($client_id, $subject, $department_id=1,$priority_id=1)
+    public function createTicket($client_id, $subject, $department_id=1,$priority_id)
     {
         $departments = Services::departments();
         if($department_id != 1){
