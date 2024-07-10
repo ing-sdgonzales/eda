@@ -314,7 +314,7 @@ $this->section('script_block');
                     if (data.new_tickets > 0) {
                         if (data.new_tickets !== lastTicketCount) {
                             document.title = `(${data.new_tickets}) ${originalTitle}`;
-                            alert(`Hay ${data.new_tickets} nuevos tickets`);
+                            alert(`Hay ${data.new_tickets} tickets abiertos`);
                             lastTicketCount = data.new_tickets;
                         }
                     } else {
@@ -322,7 +322,7 @@ $this->section('script_block');
                         lastTicketCount = 0;
                     }
                 })
-                .catch(error => console.error('Error al obtener el número de nuevos tickets:', error));
+                .catch(error => console.error('Error al obtener el número de tickets abiertos:', error));
         }
 
         setInterval(checkNewTickets, 300000);
