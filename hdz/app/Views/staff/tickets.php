@@ -303,6 +303,33 @@ $this->endSection();
 $this->section('script_block');
 ?>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const originalTitle = document.title;
+        let lastTicketCount = 0;
+
+        function checkNewTickets() {
+            fetch('<?php echo site_url(route_to('staff_tickets_new_count')); ?>')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.new_tickets > 0) {
+                        if (data.new_tickets !== lastTicketCount) {
+                            document.title = `(${data.new_tickets}) ${originalTitle}`;
+                            alert(`Hay ${data.new_tickets} nuevos tickets`);
+                            lastTicketCount = data.new_tickets;
+                        }
+                    } else {
+                        document.title = originalTitle;
+                        lastTicketCount = 0;
+                    }
+                })
+                .catch(error => console.error('Error al obtener el número de nuevos tickets:', error));
+        }
+
+        setInterval(checkNewTickets, 300000);
+        checkNewTickets();
+    });
+</script>
+<script>
     $(function() {
         ticketsPage();
     });

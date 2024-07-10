@@ -1,11 +1,14 @@
 <?php
+
 /**
  * @package EvolutionScript
  * @author: EvolutionScript S.A.C.
  * @Copyright (c) 2010 - 2020, EvolutionScript.com
  * @link http://www.evolutionscript.com
  */
+
 namespace App\Models;
+
 use CodeIgniter\Model;
 
 class Tickets extends Model
@@ -16,8 +19,7 @@ class Tickets extends Model
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = [
-    ];
+    protected $allowedFields = [];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -27,4 +29,9 @@ class Tickets extends Model
     protected $validationRules    = [];
     protected $validationMessages = [];
     protected $skipValidation     = true;
+
+    public function getOpenTicketsCount()
+    {
+        return $this->where('status', 1)->countAllResults();
+    }
 }

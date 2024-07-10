@@ -1,6 +1,0 @@
-ERROR - 2024-06-27 13:44:46 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
-ERROR - 2024-06-27 13:44:46 --> Error sending email to prueba@test.com
-ERROR - 2024-06-27 13:45:31 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
-ERROR - 2024-06-27 13:45:31 --> Error sending email to prueba@test.com
-ERROR - 2024-06-27 13:46:31 --> Email: sendWithSmtp throwed fsockopen(): php_network_getaddresses: getaddrinfo for mail.gmail.com failed: Host desconocido. 
-ERROR - 2024-06-27 13:46:31 --> Error sending email to prueba@test.com
