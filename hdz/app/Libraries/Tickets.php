@@ -28,7 +28,7 @@ class Tickets
         $this->ticketsModel = new \App\Models\Tickets();
         $this->messagesModel = new TicketsMessage();
     }
-    public function createTicket($client_id, $subject, $department_id=1,$priority_id)
+    public function createTicket($client_id, $subject, $department_id=1,$priority_id, $staff_id)
     {
         $departments = Services::departments();
         if($department_id != 1){
@@ -39,6 +39,7 @@ class Tickets
         $this->ticketsModel->protect(false);
         $this->ticketsModel->insert([
             'department_id' => $department_id,
+            'staff_id' => $staff_id,
             'priority_id' => $priority_id,
             'user_id' => $client_id,
             'subject' => $subject,
@@ -109,8 +110,9 @@ class Tickets
         foreach ($field as $k => $v){
             $this->ticketsModel->where('tickets.'.$k, $v);
         }
-        $q = $this->ticketsModel->select('tickets.*, d.name as department_name, p.name as priority_name, u.fullname, u.email, u.avatar')
+        $q = $this->ticketsModel->select('tickets.*, d.name as department_name, p.name as priority_name, u.fullname, u.email, u.avatar, s.fullname as staff_name')
             ->join('departments as d','d.id=tickets.department_id')
+            ->join('staff as s','s.id=tickets.staff_id')
             ->join('priority as p','p.id=tickets.priority_id')
             ->join('users as u','u.id=tickets.user_id')
             ->get(1);
@@ -581,8 +583,9 @@ class Tickets
             ->orderBy('tickets.status','asc')
             ->orderBy('tickets.last_update','desc')
             ->join('departments as d','d.id=tickets.department_id')
+            ->join('staff as s','s.id=tickets.staff_id')
             ->join('priority as p','p.id=tickets.priority_id')
-            ->select('tickets.*, d.name as department_name, p.name as priority_name')
+            ->select('tickets.*, d.name as department_name, p.name as priority_name, s.fullname as staff_name')
             ->paginate($per_page, 'default', null, 2);
         return [
             'result' => $result,

@@ -72,7 +72,7 @@ $request = \CodeIgniter\Services::request();
                 <div class="form-group">
                     <label><?php echo lang('Admin.form.department'); ?></label>
                     <select name="department" class="form-control custom-select">
-                        <option value="">-------------------</option>
+                        <option value="">Seleccionar...</option>
                         <?php
                         if ($department_list = $departments) {
                             foreach ($department_list as $item) {
@@ -91,7 +91,7 @@ $request = \CodeIgniter\Services::request();
                 <div class="form-group">
                     <label><?php echo lang('Admin.form.status'); ?></label>
                     <select name="status" class="form-control custom-select">
-                        <option value="">-------------------</option>
+                        <option value="">Seleccionar...</option>
                         <?php
                         foreach ($statuses as $k => $v) {
                             if ($request->getGet('status') == $k) {

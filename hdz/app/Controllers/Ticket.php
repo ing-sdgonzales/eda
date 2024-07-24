@@ -13,6 +13,7 @@ namespace App\Controllers;
 use App\Libraries\reCAPTCHA;
 use App\Libraries\Tickets;
 use App\Models\PriorityModel;
+use App\Models\Staff;
 use Config\Services;
 
 class Ticket extends BaseController
@@ -47,6 +48,7 @@ class Ticket extends BaseController
         $tickets = new Tickets();
         $priorityModel = new PriorityModel();
         $ticket_priorities = $priorityModel->get_priorities();
+        $staff = $this->getStaffByDepartment($department_id);
         $validation = Services::validation();
         $reCAPTCHA = new reCAPTCHA();
         if ($this->request->getPost('do') == 'submit') {
@@ -125,7 +127,7 @@ class Ticket extends BaseController
                     $client_id = $this->client->getClientID($this->request->getPost('fullname'), $this->request->getPost('email'));
                 }
 
-                $ticket_id = $tickets->createTicket($client_id, $this->request->getPost('subject'), $department->id, $this->request->getPost('priority'));
+                $ticket_id = $tickets->createTicket($client_id, $this->request->getPost('subject'), $department->id, $this->request->getPost('priority'), $this->request->getPost('staff'));
                 //Custom field
                 $tickets->updateTicket([
                     'custom_vars' => serialize($customFieldList)
@@ -154,7 +156,8 @@ class Ticket extends BaseController
             'validation' => $validation,
             'captcha' => $reCAPTCHA->display(),
             'customFields' => $tickets->customFieldsFromDepartment($department->id),
-            'ticket_priorities' => $ticket_priorities
+            'ticket_priorities' => $ticket_priorities,
+            'staff' => $staff
         ]);
     }
 
@@ -254,5 +257,23 @@ class Ticket extends BaseController
             'ticket_status' => lang('Client.form.' . $tickets->statusName($info->status)),
             'error_msg' => isset($error_msg) ? $error_msg : null,
         ]);
+    }
+
+    private function getStaffByDepartment($department_id)
+    {
+        $staffModel = new Staff();
+        $staff = $staffModel->get_staff();
+
+        $staffInDepartment = [];
+
+        foreach ($staff as $stf) {
+            $departments = unserialize($stf->department);
+
+            if (is_array($departments) && in_array($department_id, $departments)) {
+                $staffInDepartment[] = $stf;
+            }
+        }
+
+        return $staffInDepartment;
     }
 }

@@ -12,9 +12,13 @@ namespace App\Controllers\Staff;
 
 use App\Controllers\BaseController;
 use App\Models\CannedModel;
+use App\Models\Departments;
+use App\Models\PriorityModel;
+use App\Models\Staff;
 use App\Models\Tickets as ModelsTickets;
+use App\Models\TicketsMessage;
 use Config\Services;
-
+use Exception;
 
 class Tickets extends BaseController
 {
@@ -31,10 +35,18 @@ class Tickets extends BaseController
                         if ($this->request->getPost('action') == 'remove') {
                             $tickets->deleteTicket($ticket_id);
                         } elseif ($this->request->getPost('action') == 'update') {
+                            error_log('Datos recibidos: ' . print_r($this->request->getPost(), true));
                             if (is_numeric($this->request->getPost('department'))) {
                                 if (Services::departments()->isValid($this->request->getPost('department'))) {
                                     $tickets->updateTicket([
                                         'department_id' => $this->request->getPost('department')
+                                    ], $ticket_id);
+                                }
+                            }
+                            if (is_numeric($this->request->getPost('staff'))) {
+                                if (Services::staff()->isValid($this->request->getPost('staff'))) {
+                                    $tickets->updateTicket([
+                                        'staff_id' => $this->request->getPost('staff')
                                     ], $ticket_id);
                                 }
                             }
@@ -84,6 +96,7 @@ class Tickets extends BaseController
             return redirect()->route('staff_tickets');
         }
         $key = array_search($ticket->department_id, array_column($this->staff->getDepartments(), 'id'));
+        $staffInDepartament = $this->getStaffByDepartment($ticket->department_id);
         if (!is_numeric($key)) {
             $this->session->setFlashdata('ticket_error', lang('Admin.error.ticketNotPermission'));
             return redirect()->route('staff_tickets');
@@ -116,6 +129,7 @@ class Tickets extends BaseController
             $validation = Services::validation();
             $validation->setRules([
                 'department' => 'required|is_natural_no_zero|is_not_unique[departments.id]',
+                'staff' => 'required|is_natural_no_zero|is_not_unique[staff.id]',
                 'status' => 'required|is_natural|in_list[' . implode(',', array_keys($tickets->statusList())) . ']',
                 'priority' => 'required|is_natural_no_zero|is_not_unique[priority.id]'
             ], [
@@ -123,6 +137,11 @@ class Tickets extends BaseController
                     'required' => lang('Admin.error.invalidDepartment'),
                     'is_natural_no_zero' => lang('Admin.error.invalidDepartment'),
                     'is_not_unique' => lang('Admin.error.invalidDepartment'),
+                ],
+                'staff' => [
+                    'required' => lang('Admin.error.invalidStaff'),
+                    'is_natural_no_zero' => lang('Admin.error.invalidStaff'),
+                    'is_not_unique' => lang('Admin.error.invalidStaff'),
                 ],
                 'status' => [
                     'required' => lang('Admin.error.invalidStatus'),
@@ -140,6 +159,7 @@ class Tickets extends BaseController
             } else {
                 $tickets->updateTicket([
                     'department_id' => $this->request->getPost('department'),
+                    'staff_id' => $this->request->getPost('staff'),
                     'status' => $this->request->getPost('status'),
                     'priority_id' => $this->request->getPost('priority'),
                 ], $ticket->id);
@@ -243,6 +263,7 @@ class Tickets extends BaseController
             'message_result' => $messages['result'],
             'pager' => $messages['pager'],
             'departments_list' => Services::departments()->getAll(),
+            'staff_list' => $staffInDepartament,
             'ticket_statuses' => $tickets->statusList(),
             'ticket_priorities' => $tickets->getPriorities(),
             'kb_selector' => Services::kb()->kb_article_selector(),
@@ -261,6 +282,7 @@ class Tickets extends BaseController
                 'email' => 'required|valid_email',
                 'department' => 'required|is_natural_no_zero|is_not_unique[departments.id]',
                 'priority' => 'required|is_natural_no_zero|is_not_unique[priority.id]',
+                'staff' => 'required|is_natural_no_zero|is_not_unique[staff.id]',
                 'status' => 'required|is_natural|in_list[' . implode(',', array_keys($tickets->statusList())) . ']',
                 'subject' => 'required',
                 'message' => 'required'
@@ -278,6 +300,11 @@ class Tickets extends BaseController
                     'required' => lang('Admin.error.invalidPriority'),
                     'is_natural_no_zero' => lang('Admin.error.invalidPriority'),
                     'is_not_unique' => lang('Admin.error.invalidPriority'),
+                ],
+                'staff' => [
+                    'required' => lang('Admin.error.invalidStaff'),
+                    'is_natural_no_zero' => lang('Admin.error.invalidStaff'),
+                    'is_not_unique' => lang('Admin.error.invalidStaff'),
                 ],
                 'status' => [
                     'required' => lang('Admin.error.invalidStatus'),
@@ -314,7 +341,7 @@ class Tickets extends BaseController
                 }
                 $name = ($this->request->getPost('fullname') == '') ? $this->request->getPost('email') : $this->request->getPost('fullname');
                 $client_id = $this->client->getClientID($name, $this->request->getPost('email'));
-                $ticket_id = $tickets->createTicket($client_id, $this->request->getPost('subject'), $this->request->getPost('department'), $this->request->getPost('priority'));
+                $ticket_id = $tickets->createTicket($client_id, $this->request->getPost('subject'), $this->request->getPost('department'), $this->request->getPost('priority'), $this->request->getPost('staff'));
                 $message = $this->request->getPost('message') . $this->staff->getData('signature');
                 $message_id = $tickets->addMessage($ticket_id, $message, $this->staff->getData('id'));
                 $tickets->updateTicket([
@@ -327,6 +354,8 @@ class Tickets extends BaseController
                 }
 
                 $ticket = $tickets->getTicket(['id' => $ticket_id]);
+                $this->sendEmailToStaff($ticket, $this->request->getPost('department'));
+
                 $tickets->replyTicketNotification($ticket, $message, (isset($files) ? $files : null));
                 $this->session->setFlashdata('form_success', 'Ticket has been created and client was notified.');
                 return redirect()->route('staff_ticket_view', [$ticket_id]);
@@ -334,7 +363,6 @@ class Tickets extends BaseController
 
             $this->sendNotificationCount();
         }
-
 
         return view('staff/ticket_new', [
             'error_msg' => isset($error_msg) ? $error_msg : null,
@@ -488,8 +516,96 @@ class Tickets extends BaseController
     public function sendNotificationCount()
     {
         $tickets = new ModelsTickets();
-        $openTicketsCount = $tickets->getOpenTicketsCount(); // Asume que este método existe y devuelve la cantidad de tickets abiertos.
+        $openTicketsCount = $tickets->getOpenTicketsCount();
 
         return $this->response->setJSON(['new_tickets' => $openTicketsCount]);
+    }
+
+    private function sendEmailToStaff($ticket, $department_id)
+    {
+        $staffModel = new Staff();
+        $staff = $staffModel->findAll();
+        $staffInDepartament = [];
+
+        foreach ($staff as $stf) {
+
+            $departments = unserialize($stf->department);
+            if (is_array($departments) && in_array($department_id, $departments)) {
+                $staffInDepartament[] = $stf;
+            }
+        }
+        $departmentModel = new Departments();
+        $department = $departmentModel->find($ticket->department_id);
+
+        $ticketMessageModel = new TicketsMessage();
+        $message = $ticketMessageModel->where('ticket_id', $ticket->id)
+            ->orderBy('date', 'asc')
+            ->first();
+
+        $priorityModel = new PriorityModel();
+        $priority = $priorityModel->find($ticket->priority_id);
+        foreach ($staffInDepartament as $stf) {
+            $email = Services::email();
+            $email->setTo($stf->email);
+            $email->setFrom('sarh.conred@gmail.com', 'Escritorio de Ayuda');
+            $email->setSubject('Nuevo ticket creado');
+            $email->setMessage(
+                'Se ha creado un nuevo ticket:<br><br>' .
+                    '<strong>ID:</strong> ' . $ticket->id . '<br>' .
+                    '<strong>Asunto:</strong> ' . $ticket->subject . '<br>' .
+                    '<strong>Para:</strong> ' . $department->name . '<br>' .
+                    '<strong>Prioridad:</strong> ' . lang('Admin.form.' . $priority->name) . '<br>' .
+                    '<strong>Descripción:</strong> ' . $message->message . '<br>' .
+                    '<strong>Enalce:</strong> ' . site_url('staff/tickets/view/' . $ticket->id) . '<br>'
+            );
+
+            if ($email->send()) {
+                log_message('info', 'Correo de notificación enviado a ' . $stf->email);
+            } else {
+                $data = $email->printDebugger(['headers']);
+                log_message('error', implode("\n", $data));
+            }
+        }
+    }
+
+    private function getStaffByDepartment($department_id)
+    {
+        $staffModel = new Staff();
+        $staff = $staffModel->get_staff();
+
+        $staffInDepartment = [];
+
+        foreach ($staff as $stf) {
+            $departments = unserialize($stf->department);
+
+            if (is_array($departments) && in_array($department_id, $departments)) {
+                $staffInDepartment[] = $stf;
+            }
+        }
+
+        return $staffInDepartment;
+    }
+
+    public function staffByDepartmentJson()
+    {
+        $json = $this->request->getJSON();
+        $departmentId = $json->department_id ?? null;
+
+        if (empty($departmentId)) {
+            log_message('error', 'Department ID is required');
+            return $this->response->setJSON(['error' => 'Department ID is required']);
+        }
+
+        $staffMembers = $this->getStaffByDepartment($departmentId);
+
+        $response = [];
+        foreach ($staffMembers as $staff) {
+            $response[] = [
+                'id' => $staff->id,
+                'name' => $staff->fullname
+            ];
+        }
+
+        return $this->response->setJSON($response)->setHeader('X-CSRF-TOKEN', csrf_hash());
     }
 }

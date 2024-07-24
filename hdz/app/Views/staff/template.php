@@ -13,6 +13,7 @@
     <title>EDA Panel de Control</title>
     <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="<?= csrf_hash() ?>">
     <?php
     echo link_tag('assets/helpdeskz/images/favicon2.ico', 'icon', 'image/x-icon') .
         link_tag('assets/components/fontawesome/css/all.min.css') .

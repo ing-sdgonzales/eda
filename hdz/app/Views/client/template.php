@@ -72,7 +72,7 @@ $this->renderSection('content');
         <div class="row">
             <div class="col-md-6">Copyright &copy; <?php echo site_config('site_name');?></div>
             <div class="col-md-6 text-md-right">
-                Powered by <a href="http://www.helpdeskz.com">HelpDeskZ</a>
+                Desarrollado por <a href="http://www.helpdeskz.com">HelpDeskZ</a>
             </div>
         </div>
     </div>

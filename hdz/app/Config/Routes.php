@@ -263,7 +263,11 @@ $routes->group(Helpdesk::STAFF_URI, [
     $routes->add('tickets/get_new_tickets_count', 'Staff\Tickets::sendNotificationCount', [
         'as' => 'staff_tickets_new_count',
     ]);
+    $routes->post('tickets/get_staff_by_department', 'Staff\Tickets::staffByDepartmentJson', [
+        'as' => 'staff_by_department',
+    ]);
 });
+
 
 //API
 $routes->presenter('api/users', ['controller' => 'Api\Users', 'filter' => 'apiAuth']);

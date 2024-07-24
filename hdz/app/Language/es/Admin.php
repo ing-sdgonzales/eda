@@ -311,6 +311,7 @@ return [
         'ticketNotFound' => 'El ticket no ha sido encontrado.',
         'ticketNotPermission' => 'No tienes permisos para ver este ticket.',
         'invalidDepartment' => 'Departamento no válido.',
+        'invalidStaff' => 'Agente no válido.',
         'invalidStatus' => 'Eastado no válido.',
         'invalidPriority' => 'Prioridad no válida.',
         'enterMessage' => 'Ingresa tu mensaje.',
