@@ -312,7 +312,7 @@ return [
         'ticketNotPermission' => 'No tienes permisos para ver este ticket.',
         'invalidDepartment' => 'Departamento no válido.',
         'invalidStaff' => 'Agente no válido.',
-        'invalidStatus' => 'Eastado no válido.',
+        'invalidStatus' => 'Estado no válido.',
         'invalidPriority' => 'Prioridad no válida.',
         'enterMessage' => 'Ingresa tu mensaje.',
         'enterValidEmail' => 'Ingresa un correo electrónico válido.',
