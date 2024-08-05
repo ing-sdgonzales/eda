@@ -163,6 +163,7 @@ class Tickets extends BaseController
                     'status' => $this->request->getPost('status'),
                     'priority_id' => $this->request->getPost('priority'),
                 ], $ticket->id);
+                $this->sendNotificacionToStaff($ticket_id);
                 $this->session->setFlashdata('ticket_update', 'Ticket updated.');
                 return redirect()->to(current_url());
             }
@@ -556,7 +557,7 @@ class Tickets extends BaseController
                     '<strong>Para:</strong> ' . $department->name . '<br>' .
                     '<strong>Prioridad:</strong> ' . lang('Admin.form.' . $priority->name) . '<br>' .
                     '<strong>Descripción:</strong> ' . $message->message . '<br>' .
-                    '<strong>Enalce:</strong> ' . site_url('staff/tickets/view/' . $ticket->id) . '<br>'
+                    '<strong>Enlace:</strong> <a href="' . site_url('staff/tickets/view/' . $ticket->id) . '">Ver Ticket</a><br>'
             );
 
             if ($email->send()) {
@@ -607,5 +608,44 @@ class Tickets extends BaseController
         }
 
         return $this->response->setJSON($response)->setHeader('X-CSRF-TOKEN', csrf_hash());
+    }
+
+    public function sendNotificacionToStaff($ticket_id)
+    {
+        $ticketModel = new ModelsTickets();
+        $ticket =  $ticketModel->find($ticket_id);
+
+        if ($ticket) {
+            $ticketMessageModel = new TicketsMessage();
+            $message = $ticketMessageModel->where('ticket_id', $ticket->id)
+                ->orderBy('date', 'desc')
+                ->first();
+
+            $priorityModel = new PriorityModel();
+            $priority = $priorityModel->find($ticket->priority_id);
+
+            $staffModel = new Staff();
+            $staff = $staffModel->find($ticket->staff_id);
+
+            $email = Services::email();
+            $email->setTo($staff->email);
+            $email->setFrom('sarh.conred@gmail.com', 'Escritorio de Ayuda');
+            $email->setSubject('Nuevo ticket asignado');
+            $email->setMessage(
+                'Se ha asignado un nuevo ticket:<br><br>' .
+                    '<strong>ID:</strong> ' . $ticket->id . '<br>' .
+                    '<strong>Asunto:</strong> ' . $ticket->subject . '<br>' .
+                    '<strong>Prioridad:</strong> ' . lang('Admin.form.' . $priority->name) . '<br>' .
+                    '<strong>Descripción:</strong> ' . $message->message . '<br>' .
+                    '<strong>Enlace:</strong> <a href="' . site_url('staff/tickets/view/' . $ticket->id) . '">Ver Ticket</a><br>'
+            );
+
+            if ($email->send()) {
+                log_message('info', 'Correo de notificación enviado a ' . $staff->email);
+            } else {
+                $data = $email->printDebugger(['headers']);
+                log_message('error', implode("\n", $data));
+            }
+        }
     }
 }
